@@ -1,10 +1,10 @@
 using UnityEngine;
 
-public class Enemy2 : MonoBehaviour, IDamagable
+public class Mud : MonoBehaviour, IDamagable
 {
-    public float attackDistance; 
+    public float attackDistance;
     public float moveSpeed;
-    public float timer; //Таймер между атаками
+    public float timer; 
     public int maxHealth = 10;
     public int attackDamage = 3;
     public Transform leftBound;
@@ -15,17 +15,17 @@ public class Enemy2 : MonoBehaviour, IDamagable
     public GameObject canvas;
 
     [HideInInspector]
-    public bool inRange;   //Игрок в области видимости или нет
+    public bool inRange;   
     [HideInInspector]
     public Transform target;
 
     private Animator animator;
     private HealthBar healthBar;
-    private float distance; //Расстояние между игроком и врагом
+    private float distance; 
     private float initTimer;
     private int currentHealth;
     private bool attackMode;
-    private bool cdAfterAttack = false; //Кулдаун после атаки
+    private bool cdAfterAttack = false; 
 
     private void Awake()
     {
@@ -48,7 +48,7 @@ public class Enemy2 : MonoBehaviour, IDamagable
         if (inRange)
             EnemyLogic();
     }
-       
+
     private void EnemyLogic()
     {
         distance = Vector2.Distance(transform.position, target.position);
@@ -57,7 +57,7 @@ public class Enemy2 : MonoBehaviour, IDamagable
             Move();
             StopAttack();
         }
-        else 
+        else
         {
             if (cdAfterAttack)
             {
@@ -65,7 +65,7 @@ public class Enemy2 : MonoBehaviour, IDamagable
                 AttackCooldown();
             }
             else Attack();
-        } 
+        }
     }
 
     private void Move()
@@ -73,7 +73,7 @@ public class Enemy2 : MonoBehaviour, IDamagable
         animator.SetBool("b_isMoving", true);
         if (!animator.GetCurrentAnimatorStateInfo(0).IsName("attack"))
         {
-            Vector2 targetPosition = new (target.position.x, transform.position.y);
+            Vector2 targetPosition = new(target.position.x, transform.position.y);
             transform.position = Vector2.MoveTowards(transform.position, targetPosition, moveSpeed * Time.deltaTime);
         }
     }
@@ -104,7 +104,6 @@ public class Enemy2 : MonoBehaviour, IDamagable
         }
     }
 
-    //Метод привязан к событию анимации.
     private void TriggerCooldown() => cdAfterAttack = true;
 
     private bool EnemyInBounds() => transform.position.x > leftBound.position.x && transform.position.x < rightBound.position.x;

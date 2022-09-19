@@ -2,13 +2,13 @@ using UnityEngine;
 
 public class HitBoxCheck : MonoBehaviour
 {
-    private Enemy2 enemy2Script;
+    private Skeleton enemy2Script;
     private Animator animator;
 
     private void Awake()
     {
         animator = GetComponentInParent<Animator>();
-        enemy2Script = GetComponentInParent<Enemy2>();
+        enemy2Script = GetComponentInParent<Skeleton>();
     }
     
 

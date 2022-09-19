@@ -2,9 +2,9 @@ using UnityEngine;
 
 public class TriggerAreaCheck : MonoBehaviour
 {
-    private Enemy2 enemyBehaviourScript;
+    private Skeleton enemyBehaviourScript;
 
-    private void Awake() => enemyBehaviourScript = GetComponentInParent<Enemy2>();
+    private void Awake() => enemyBehaviourScript = GetComponentInParent<Skeleton>();
 
     private void OnTriggerEnter2D(Collider2D collision)
     {

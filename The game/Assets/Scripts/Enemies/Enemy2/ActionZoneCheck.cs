@@ -2,13 +2,13 @@ using UnityEngine;
 
 public class ActionZoneCheck : MonoBehaviour
 {
-    private Enemy2 enemyBehaviourScript;
+    private Skeleton enemyBehaviourScript;
     private Animator animator;
     private bool inRange;
 
     private void Awake()
     {
-        enemyBehaviourScript = GetComponentInParent<Enemy2>();
+        enemyBehaviourScript = GetComponentInParent<Skeleton>();
         animator = GetComponentInParent<Animator>();
     }
 
