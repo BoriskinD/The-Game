@@ -1,6 +1,6 @@
 using UnityEngine;
 
-public class HitBoxCheck : MonoBehaviour
+public class SkeletonAttackHandler : MonoBehaviour
 {
     private Skeleton enemy2Script;
     private Animator animator;

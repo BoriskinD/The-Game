@@ -148,7 +148,7 @@ public class Skeleton : MonoBehaviour, IDamagable
         hitBox.SetActive(false);
         GetComponent<BoxCollider2D>().enabled = false;
         enabled = false;
-        actionZone.GetComponent<ActionZoneCheck>().enabled = false;
+        actionZone.GetComponent<SkeletonActionZoneHandler>().enabled = false;
         actionZone.SetActive(false);
     }
 }

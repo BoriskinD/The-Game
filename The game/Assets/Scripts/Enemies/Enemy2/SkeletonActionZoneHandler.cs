@@ -1,6 +1,6 @@
 using UnityEngine;
 
-public class ActionZoneCheck : MonoBehaviour
+public class SkeletonActionZoneHandler : MonoBehaviour
 {
     private Skeleton enemyBehaviourScript;
     private Animator animator;
@@ -18,15 +18,15 @@ public class ActionZoneCheck : MonoBehaviour
             enemyBehaviourScript.Flip();
     }
 
-    private void OnTriggerEnter2D(Collider2D collision)
+    private void OnTriggerEnter2D(Collider2D trigger)
     {
-        if (collision.gameObject.CompareTag("Player"))
+        if (trigger.gameObject.CompareTag("Player"))
             inRange = true;
     }
 
-    private void OnTriggerExit2D(Collider2D collision)
+    private void OnTriggerExit2D(Collider2D trigger)
     {
-        if (collision.gameObject.CompareTag("Player"))
+        if (trigger.gameObject.CompareTag("Player"))
         {
             inRange = false;
             gameObject.SetActive(false);

@@ -64,14 +64,20 @@ public class Mud : MonoBehaviour, IDamagable
                 animator.SetBool("b_isAttack", false);
                 AttackCooldown();
             }
-            else Attack();
+            else
+            {
+                int attackIndex = GetAttackAnimationIndex();
+                Attack(attackIndex);
+            } 
         }
     }
+
+    private int GetAttackAnimationIndex() => Random.Range(1,3);
 
     private void Move()
     {
         animator.SetBool("b_isMoving", true);
-        if (!animator.GetCurrentAnimatorStateInfo(0).IsName("attack"))
+        if (!(animator.GetCurrentAnimatorStateInfo(0).IsName("attack1") || animator.GetCurrentAnimatorStateInfo(0).IsName("attack2")))
         {
             Vector2 targetPosition = new(target.position.x, transform.position.y);
             transform.position = Vector2.MoveTowards(transform.position, targetPosition, moveSpeed * Time.deltaTime);
@@ -82,16 +88,18 @@ public class Mud : MonoBehaviour, IDamagable
     {
         cdAfterAttack = false;
         attackMode = false;
-        animator.SetBool("b_isAttack", false);
+        //animator.SetBool("b_isAttack", false);
     }
 
-    private void Attack()
+    private void Attack(int attackIndex)
     {
         timer = initTimer; //—бросить таймер
         attackMode = true;
 
         animator.SetBool("b_isMoving", false);
-        animator.SetBool("b_isAttack", true);
+        if (attackIndex == 1)
+            animator.SetTrigger("t_firstAttack");
+        else animator.SetTrigger("t_secondAttack");
     }
 
     private void AttackCooldown()
@@ -134,7 +142,7 @@ public class Mud : MonoBehaviour, IDamagable
 
     public void TakeDamage(int damageAmount)
     {
-        animator.SetTrigger("t_Hurt");
+        animator.SetTrigger("t_hurt");
         currentHealth -= damageAmount;
         healthBar.SetHealth(currentHealth);
         if (currentHealth < 1) Die();
@@ -147,7 +155,7 @@ public class Mud : MonoBehaviour, IDamagable
         hitBox.SetActive(false);
         GetComponent<BoxCollider2D>().enabled = false;
         enabled = false;
-        actionZone.GetComponent<ActionZoneCheck>().enabled = false;
+        actionZone.GetComponent<SkeletonActionZoneHandler>().enabled = false;
         actionZone.SetActive(false);
     }
 }
