@@ -5,8 +5,8 @@ public class Mud : MonoBehaviour, IDamagable
     public float attackDistance;
     public float moveSpeed;
     public float timer; 
-    public int maxHealth = 10;
-    public int attackDamage = 3;
+    public int maxHealth;
+    public int attackDamage;
     public Transform leftBound;
     public Transform rightBound;
     public GameObject actionZone;
@@ -24,16 +24,25 @@ public class Mud : MonoBehaviour, IDamagable
     private float distance; 
     private float initTimer;
     private int currentHealth;
+    private int attackIndex;
     private bool attackMode;
-    private bool cdAfterAttack = false; 
+    private bool cdAfterAttack;
+    private bool alive;
 
     private void Awake()
     {
+        cdAfterAttack = false;
+        alive = true;
+
+        maxHealth = 10;
+        attackDamage = 3;
         currentHealth = maxHealth;
         initTimer = timer;
+
         healthBar = canvas.GetComponentInChildren<HealthBar>();
         healthBar.SetMaxHealth(maxHealth);
         animator = GetComponent<Animator>();
+
         SelectTarget();
     }
 
@@ -61,18 +70,17 @@ public class Mud : MonoBehaviour, IDamagable
         {
             if (cdAfterAttack)
             {
-                animator.SetBool("b_isAttack", false);
                 AttackCooldown();
             }
             else
             {
-                int attackIndex = GetAttackAnimationIndex();
+                attackIndex = GetAttackAnimationIndex();
                 Attack(attackIndex);
             } 
         }
     }
 
-    private int GetAttackAnimationIndex() => Random.Range(1,3);
+    private int GetAttackAnimationIndex() => Random.Range(1, 3);
 
     private void Move()
     {
@@ -88,7 +96,8 @@ public class Mud : MonoBehaviour, IDamagable
     {
         cdAfterAttack = false;
         attackMode = false;
-        //animator.SetBool("b_isAttack", false);
+        animator.SetBool("b_secondAttack", false);
+        animator.SetBool("b_firstAttack", false);
     }
 
     private void Attack(int attackIndex)
@@ -98,8 +107,15 @@ public class Mud : MonoBehaviour, IDamagable
 
         animator.SetBool("b_isMoving", false);
         if (attackIndex == 1)
-            animator.SetTrigger("t_firstAttack");
-        else animator.SetTrigger("t_secondAttack");
+        {
+            animator.SetBool("b_secondAttack", false);
+            animator.SetBool("b_firstAttack", true);
+        }
+        else
+        {
+            animator.SetBool("b_firstAttack", false);
+            animator.SetBool("b_secondAttack", true);
+        }
     }
 
     private void AttackCooldown()
@@ -129,14 +145,14 @@ public class Mud : MonoBehaviour, IDamagable
 
     public void Flip()
     {
-        Vector3 enemyRotation = transform.eulerAngles;
+        Vector3 mudRotation = transform.eulerAngles;
         Vector3 canvasRotation = canvas.transform.eulerAngles;
 
-        if (transform.position.x > target.position.x) enemyRotation.y = 180;
-        else enemyRotation.y = 0;
+        if (transform.position.x > target.position.x) mudRotation.y = 0;
+        else mudRotation.y = 180;
 
         canvasRotation.y = 0;
-        transform.eulerAngles = enemyRotation;
+        transform.eulerAngles = mudRotation;
         canvas.transform.eulerAngles = canvasRotation;
     }
 
@@ -145,8 +161,15 @@ public class Mud : MonoBehaviour, IDamagable
         animator.SetTrigger("t_hurt");
         currentHealth -= damageAmount;
         healthBar.SetHealth(currentHealth);
-        if (currentHealth < 1) Die();
+        if (currentHealth < 1)
+        {
+            alive = false;
+            Die();
+        } 
     }
+
+    public bool IsAlive() => alive;
+
 
     private void Die()
     {
@@ -157,5 +180,6 @@ public class Mud : MonoBehaviour, IDamagable
         enabled = false;
         actionZone.GetComponent<SkeletonActionZoneHandler>().enabled = false;
         actionZone.SetActive(false);
+        triggerArea.SetActive(false);
     }
 }

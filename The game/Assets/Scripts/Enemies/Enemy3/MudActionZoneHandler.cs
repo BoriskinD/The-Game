@@ -14,8 +14,11 @@ public class MudActionZoneHandler : MonoBehaviour
 
     private void Update()
     {
-        if (inRange && !(animator.GetCurrentAnimatorStateInfo(0).IsName("attack1") || animator.GetCurrentAnimatorStateInfo(0).IsName("attack2")))
+        if (inRange && !(animator.GetCurrentAnimatorStateInfo(0).IsName("attack1") || animator.GetCurrentAnimatorStateInfo(0).IsName("attack2"))
+            && mudBehaviourScript.IsAlive())
+        {
             mudBehaviourScript.Flip();
+        }
     }
 
     private void OnTriggerEnter2D(Collider2D trigger)

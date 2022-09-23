@@ -274,7 +274,7 @@ GameObject:
   - component: {fileID: 54137367}
   m_Layer: 0
   m_Name: Mud
-  m_TagString: Untagged
+  m_TagString: Enemy
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -78983,6 +78983,10 @@ PrefabInstance:
     - target: {fileID: 9210873743301506475, guid: 28eeb6af9fbcd8248927c2b03d7998b6, type: 3}
       propertyPath: m_AnchorMax.y
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 9210873744164290052, guid: 28eeb6af9fbcd8248927c2b03d7998b6, type: 3}
+      propertyPath: maxHealth
+      value: 1000
       objectReference: {fileID: 0}
     - target: {fileID: 9210873744164290056, guid: 28eeb6af9fbcd8248927c2b03d7998b6, type: 3}
       propertyPath: m_RootOrder

@@ -8,7 +8,7 @@ public class MudTriggerAreaHandler : MonoBehaviour
 
     private void OnTriggerEnter2D(Collider2D trigger)
     {
-        if (trigger.gameObject.CompareTag("Player"))
+        if (trigger.gameObject.CompareTag("Player") && mudBehaviourScript.IsAlive())
         {
             gameObject.SetActive(false);
             mudBehaviourScript.target = trigger.transform;
