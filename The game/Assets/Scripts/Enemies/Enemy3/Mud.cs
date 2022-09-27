@@ -5,8 +5,8 @@ public class Mud : MonoBehaviour, IDamagable
     public float attackDistance;
     public float moveSpeed;
     public float timer; 
-    public int maxHealth;
-    public int attackDamage;
+    public int maxHealth = 10;
+    public int attackDamage = 3;
     public Transform leftBound;
     public Transform rightBound;
     public GameObject actionZone;
@@ -34,8 +34,6 @@ public class Mud : MonoBehaviour, IDamagable
         cdAfterAttack = false;
         alive = true;
 
-        maxHealth = 10;
-        attackDamage = 3;
         currentHealth = maxHealth;
         initTimer = timer;
 
@@ -65,13 +63,13 @@ public class Mud : MonoBehaviour, IDamagable
         {
             Move();
             StopAttack();
-            ResetAnimations();
+            ResetAttackAnimations();
         }
         else
         {
             if (cdAfterAttack)
             {
-                ResetAnimations();
+                ResetAttackAnimations();
                 AttackCooldown();
             }
             else
@@ -95,7 +93,7 @@ public class Mud : MonoBehaviour, IDamagable
         }
     }
 
-    private void ResetAnimations()
+    private void ResetAttackAnimations()
     {
         animator.SetBool("b_secondAttack", false);
         animator.SetBool("b_firstAttack", false);
@@ -112,19 +110,17 @@ public class Mud : MonoBehaviour, IDamagable
         timer = initTimer;
         attackMode = true;
 
-        if (attackIndex == 1)
+        switch (attackIndex)
         {
-            if(animator.GetCurrentAnimatorStateInfo(0).IsName("attack2"))
-                animator.SetBool("b_secondAttack", false);
+            case 1:
+                if (animator.GetCurrentAnimatorStateInfo(0).IsName("attack2")) animator.SetBool("b_secondAttack", false);
+                animator.SetBool("b_firstAttack", true);
+                break;
 
-            animator.SetBool("b_firstAttack", true);
-        }
-        else
-        {
-            if (animator.GetCurrentAnimatorStateInfo(0).IsName("attack1"))
-                animator.SetBool("b_firstAttack", false);
-
-            animator.SetBool("b_secondAttack", true);
+            case 2:
+                if (animator.GetCurrentAnimatorStateInfo(0).IsName("attack1")) animator.SetBool("b_firstAttack", false);
+                animator.SetBool("b_secondAttack", true);
+                break;
         }
     }
 

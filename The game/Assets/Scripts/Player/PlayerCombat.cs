@@ -4,13 +4,14 @@ public class PlayerCombat : MonoBehaviour, IDamagable
 {
     public int attackDamage = 2;
     public int maxHealth = 10;
-    //public float attackRate = 2f;
-    public float attackRange = .5f;
+    public float timeToNextAttack = 1.5f;
     public HealthBar healthBar;
 
     private Animator animator;
-    //private float timeToNextAttack = 0f;
+    public float timer;
     private int currentHealth;
+    private bool canAttack;
+
     public int CurrentHealth 
     {
         get => currentHealth;
@@ -24,6 +25,8 @@ public class PlayerCombat : MonoBehaviour, IDamagable
 
     private void Awake()
     {
+        canAttack = true;
+        timer = timeToNextAttack;
         currentHealth = maxHealth;
         animator = GetComponent<Animator>();
     }
@@ -35,15 +38,27 @@ public class PlayerCombat : MonoBehaviour, IDamagable
 
     private void Update()
     {
-        if (Input.GetMouseButtonDown(0))// && Time.time >= timeToNextAttack)
+        if (canAttack)
         {
-            Attack();
-            //timeToNextAttack = Time.time + 1 / attackRate;
+            if (Input.GetMouseButtonDown(0))
+                Attack();
+        }
+        else AttackCoolDown();
+    }
+
+    private void AttackCoolDown()
+    {
+        timer -= Time.deltaTime;
+        if (timer <= 0 && !canAttack)
+        {
+            timer = timeToNextAttack;
+            canAttack = true;
         }
     }
 
     private void Attack()
     {
+        canAttack = false;
         animator.SetTrigger("t_Attack");
     }
 
