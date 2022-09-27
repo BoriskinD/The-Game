@@ -65,15 +65,18 @@ public class Mud : MonoBehaviour, IDamagable
         {
             Move();
             StopAttack();
+            ResetAnimations();
         }
         else
         {
             if (cdAfterAttack)
             {
+                ResetAnimations();
                 AttackCooldown();
             }
             else
             {
+                animator.SetBool("b_isMoving", false);
                 attackIndex = GetAttackAnimationIndex();
                 Attack(attackIndex);
             } 
@@ -87,33 +90,40 @@ public class Mud : MonoBehaviour, IDamagable
         animator.SetBool("b_isMoving", true);
         if (!(animator.GetCurrentAnimatorStateInfo(0).IsName("attack1") || animator.GetCurrentAnimatorStateInfo(0).IsName("attack2")))
         {
-            Vector2 targetPosition = new(target.position.x, transform.position.y);
+            Vector2 targetPosition = new (target.position.x, transform.position.y);
             transform.position = Vector2.MoveTowards(transform.position, targetPosition, moveSpeed * Time.deltaTime);
         }
+    }
+
+    private void ResetAnimations()
+    {
+        animator.SetBool("b_secondAttack", false);
+        animator.SetBool("b_firstAttack", false);
     }
 
     public void StopAttack()
     {
         cdAfterAttack = false;
         attackMode = false;
-        animator.SetBool("b_secondAttack", false);
-        animator.SetBool("b_firstAttack", false);
     }
 
     private void Attack(int attackIndex)
     {
-        timer = initTimer; //—бросить таймер
+        timer = initTimer;
         attackMode = true;
 
-        animator.SetBool("b_isMoving", false);
         if (attackIndex == 1)
         {
-            animator.SetBool("b_secondAttack", false);
+            if(animator.GetCurrentAnimatorStateInfo(0).IsName("attack2"))
+                animator.SetBool("b_secondAttack", false);
+
             animator.SetBool("b_firstAttack", true);
         }
         else
         {
-            animator.SetBool("b_firstAttack", false);
+            if (animator.GetCurrentAnimatorStateInfo(0).IsName("attack1"))
+                animator.SetBool("b_firstAttack", false);
+
             animator.SetBool("b_secondAttack", true);
         }
     }
