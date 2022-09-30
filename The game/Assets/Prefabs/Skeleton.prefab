@@ -215,7 +215,6 @@ GameObject:
   m_Component:
   - component: {fileID: 4796109810163138563}
   - component: {fileID: 4796109810163138562}
-  - component: {fileID: 4796109810163138589}
   - component: {fileID: 4796109810163138560}
   - component: {fileID: 4796109810163138590}
   - component: {fileID: 4796109810163138586}
@@ -297,27 +296,6 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
---- !u!50 &4796109810163138589
-Rigidbody2D:
-  serializedVersion: 4
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 4796109810163138565}
-  m_BodyType: 0
-  m_Simulated: 1
-  m_UseFullKinematicContacts: 0
-  m_UseAutoMass: 0
-  m_Mass: 40
-  m_LinearDrag: 0
-  m_AngularDrag: 0.05
-  m_GravityScale: 1
-  m_Material: {fileID: 0}
-  m_Interpolate: 0
-  m_SleepingMode: 1
-  m_CollisionDetection: 0
-  m_Constraints: 6
 --- !u!61 &4796109810163138560
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -376,7 +354,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f62b71eb43a9a914ebf04e4344a8e697, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  attackDistance: 3.5
+  attackDistance: 1.5
   moveSpeed: 1.5
   timer: 1.5
   maxHealth: 10

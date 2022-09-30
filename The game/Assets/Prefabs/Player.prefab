@@ -604,7 +604,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c2d9b62d1cf02d54dba840870fc16a43, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  movementSpeed: 10
+  movementSpeed: 5
   jumpForce: 450
   xLocalScale: 10
   canvas: {fileID: 9210873744197134552}
@@ -621,9 +621,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   attackDamage: 2
-  maxHealth: 10
-  attackRange: 2.84
+  maxHealth: 1000
+  timeToNextAttack: 1.5
   healthBar: {fileID: 9210873743851343471}
+  timer: 4
 --- !u!1 &9210873744197134552
 GameObject:
   m_ObjectHideFlags: 0

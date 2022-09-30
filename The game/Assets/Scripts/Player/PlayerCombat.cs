@@ -8,7 +8,7 @@ public class PlayerCombat : MonoBehaviour, IDamagable
     public HealthBar healthBar;
 
     private Animator animator;
-    public float timer;
+    private float timer;
     private int currentHealth;
     private bool canAttack;
 
