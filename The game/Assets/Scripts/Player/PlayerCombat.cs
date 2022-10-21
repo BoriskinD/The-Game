@@ -22,7 +22,6 @@ public class PlayerCombat : MonoBehaviour, IDamagable
         get => maxHealth;
     }
 
-
     private void Awake()
     {
         canAttack = true;

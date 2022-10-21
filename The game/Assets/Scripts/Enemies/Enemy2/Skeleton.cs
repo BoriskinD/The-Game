@@ -122,14 +122,14 @@ public class Skeleton : MonoBehaviour, IDamagable
 
     public void Flip()
     {
-        Vector3 enemyRotation = transform.eulerAngles;
+        Vector3 skeletonRotation = transform.eulerAngles;
         Vector3 canvasRotation = canvas.transform.eulerAngles;
 
-        if (transform.position.x > target.position.x) enemyRotation.y = 180;
-        else enemyRotation.y = 0;
+        if (transform.position.x > target.position.x) skeletonRotation.y = 180;
+        else skeletonRotation.y = 0;
 
         canvasRotation.y = 0;
-        transform.eulerAngles = enemyRotation;
+        transform.eulerAngles = skeletonRotation;
         canvas.transform.eulerAngles = canvasRotation;
     }
 
