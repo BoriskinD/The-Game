@@ -4,7 +4,7 @@ public class PlayerCombat : MonoBehaviour, IDamagable
 {
     public int attackDamage = 2;
     public int maxHealth = 10;
-    public float timeToNextAttack = 1.5f;
+    public float timeToNextAttack = 1.2f;
     public HealthBar healthBar;
 
     private Animator animator;
