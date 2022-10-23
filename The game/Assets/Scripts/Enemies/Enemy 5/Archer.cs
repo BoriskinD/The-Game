@@ -52,7 +52,7 @@ public class Archer : MonoBehaviour, IDamagable
             cdAfterAttack = true;
             timer = timeBtwAttacks;
             animator.SetBool("b_isAttack", true);
-            bow.Shoot();
+            bow.CreateArrow();
         }
     }
 
@@ -77,6 +77,7 @@ public class Archer : MonoBehaviour, IDamagable
         GetComponent<BoxCollider2D>().enabled = false;
         playerInRange = false;
         triggerArea.SetActive(false);
+        canvas.SetActive(false);
     }
 
     private void Flip()

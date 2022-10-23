@@ -44,8 +44,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0c7b04850d1dfca4b9edb9d0ca328d11, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  arrowPrefab: {fileID: 123122, guid: f55ee0f0c473ae941ac659029838ec21, type: 3}
-  launchForce: 5
+  arrowPrefab: {fileID: 5168051261568007306, guid: c036f42ec5954aa498572fd85cc1b1a3, type: 3}
 --- !u!1 &8562933750089159040
 GameObject:
   m_ObjectHideFlags: 0
