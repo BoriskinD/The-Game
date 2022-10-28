@@ -5,28 +5,34 @@ public class PlayerController : MonoBehaviour
     public float movementSpeed = 10.0f;
     public float jumpForce = 10.0f;
     public float xLocalScale = 10f;
+    public float bottomBoundary = -5f;
     public GameObject canvas;
 
     private Rigidbody2D playersRb;
     private Animator playerAnim;
+    private PlayerCombat playerCombat;
     private bool isJumping = false;
     private bool facingRight;
 
-    private void Start()
+    private void Awake()
     {
+        playerCombat = GetComponent<PlayerCombat>();
         playersRb = GetComponent<Rigidbody2D>();
         playerAnim = GetComponent<Animator>();
     }
 
-     private void Update()
+    private void Update()
     {
         float horizontalInput = Input.GetAxis("Horizontal");
+
+        if (transform.position.y < bottomBoundary)
+            transform.position = new (transform.position.x, bottomBoundary);
 
         if (horizontalInput > 0.01f && !facingRight)
         {
             facingRight = !facingRight;
             Flip();
-        } 
+        }
         else if (horizontalInput < -0.01f && facingRight)
         {
             facingRight = !facingRight;
@@ -45,13 +51,23 @@ public class PlayerController : MonoBehaviour
             playersRb.AddForce(Vector2.up * jumpForce, ForceMode2D.Impulse);
             isJumping = true;
             playerAnim.SetBool("b_isJumping", isJumping);
-        }  
+        }
     }
 
     private void OnCollisionEnter2D(Collision2D collision)
     {
         isJumping = false;
         playerAnim.SetBool("b_isJumping", isJumping);
+    }
+
+    private void OnTriggerEnter2D(Collider2D trigger)
+    {
+        if (trigger.gameObject.CompareTag("Dead Zone"))
+        {
+            playerCombat.enabled = false;
+            enabled = false;
+            Messenger.Broadcast(GameEvent.PLAYER_DIED);
+        }
     }
 
     private void Flip()

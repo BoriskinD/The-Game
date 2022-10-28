@@ -77,9 +77,9 @@ public class PlayerCombat : MonoBehaviour, IDamagable
         healthBar.SetHealth(currentHealth);
     }
 
-    private void Die()
+    public void Die()
     {
         animator.SetBool("b_isDead", true);
-        // ŒÕ≈÷ »√–€
+        Messenger.Broadcast(GameEvent.PLAYER_DIED);
     }
 }
