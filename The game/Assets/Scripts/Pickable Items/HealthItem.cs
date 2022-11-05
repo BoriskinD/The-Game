@@ -10,6 +10,18 @@ public class HealthItem : MonoBehaviour
 
     private bool moveUp = true;
 
+    private void Awake()
+    {
+        Messenger.AddListener(GameEvent.GAME_PAUSED, OnGamePaused);
+        Messenger.AddListener(GameEvent.GAME_UNPAUSED, OnGameUnPaused);
+    }
+
+    private void OnDestroy()
+    {
+        Messenger.RemoveListener(GameEvent.GAME_PAUSED, OnGamePaused);
+        Messenger.RemoveListener(GameEvent.GAME_UNPAUSED, OnGameUnPaused);
+    }
+
     private void Update() => Move();
 
     private void Move()
@@ -38,5 +50,14 @@ public class HealthItem : MonoBehaviour
                 Destroy(gameObject, 1);
             }
         }
+    }
+
+    private void OnGamePaused()
+    {
+        enabled = false;
+    }
+    private void OnGameUnPaused()
+    {
+        enabled = true;
     }
 }

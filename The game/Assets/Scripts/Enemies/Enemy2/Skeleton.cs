@@ -4,7 +4,7 @@ public class Skeleton : MonoBehaviour, IDamagable
 {
     public float attackDistance; 
     public float moveSpeed;
-    public float timer; //Таймер между атаками
+    public float timer; 
     public int maxHealth = 10;
     public int attackDamage = 3;
     public Transform leftBound;
@@ -15,17 +15,17 @@ public class Skeleton : MonoBehaviour, IDamagable
     public GameObject canvas;
 
     [HideInInspector]
-    public bool inRange;   //Игрок в области видимости или нет
+    public bool inRange;   
     [HideInInspector]
     public Transform target;
 
     private Animator animator;
     private HealthBar healthBar;
-    private float distance; //Расстояние между игроком и врагом
+    private float distance; 
     private float initTimer;
     private int currentHealth;
     private bool attackMode;
-    private bool cdAfterAttack = false; //Кулдаун после атаки
+    private bool cdAfterAttack = false; 
 
     private void Awake()
     {
@@ -35,6 +35,14 @@ public class Skeleton : MonoBehaviour, IDamagable
         healthBar.SetMaxHealth(maxHealth);
         animator = GetComponent<Animator>();
         SelectTarget();
+        Messenger.AddListener(GameEvent.GAME_PAUSED, OnGamePaused);
+        Messenger.AddListener(GameEvent.GAME_UNPAUSED, OnGameUnPaused);
+    }
+
+    private void OnDestroy()
+    {
+        Messenger.RemoveListener(GameEvent.GAME_PAUSED, OnGamePaused);
+        Messenger.RemoveListener(GameEvent.GAME_UNPAUSED, OnGameUnPaused);
     }
 
     void Update()
@@ -46,10 +54,10 @@ public class Skeleton : MonoBehaviour, IDamagable
             SelectTarget();
 
         if (inRange)
-            EnemyLogic();
+            SkeletonLogic();
     }
        
-    private void EnemyLogic()
+    private void SkeletonLogic()
     {
         distance = Vector2.Distance(transform.position, target.position);
         if (distance > attackDistance)
@@ -87,7 +95,8 @@ public class Skeleton : MonoBehaviour, IDamagable
 
     private void Attack()
     {
-        timer = initTimer; //Сбросить таймер
+        //РЅР°С‡Р°Р»СЊРЅС‹Р№ С‚Р°Р№РјРµСЂ
+        timer = initTimer;
         attackMode = true;
 
         animator.SetBool("b_isMoving", false);
@@ -104,7 +113,6 @@ public class Skeleton : MonoBehaviour, IDamagable
         }
     }
 
-    //Метод привязан к событию анимации.
     private void TriggerCooldown() => cdAfterAttack = true;
 
     private bool EnemyInBounds() => transform.position.x > leftBound.position.x && transform.position.x < rightBound.position.x;
@@ -150,5 +158,16 @@ public class Skeleton : MonoBehaviour, IDamagable
         enabled = false;
         actionZone.GetComponent<SkeletonActionZoneHandler>().enabled = false;
         actionZone.SetActive(false);
+    }
+
+    private void OnGamePaused()
+    {
+        animator.enabled = false;
+        enabled = false;
+    }
+    private void OnGameUnPaused()
+    {
+        animator.enabled = true;
+        enabled = true;
     }
 }

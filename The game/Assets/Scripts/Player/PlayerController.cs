@@ -8,8 +8,8 @@ public class PlayerController : MonoBehaviour
     public float bottomBoundary = -5f;
     public GameObject canvas;
 
-    private Rigidbody2D playersRb;
-    private Animator playerAnim;
+    private Rigidbody2D rb2D;
+    private Animator animator;
     private PlayerCombat playerCombat;
     private bool isJumping = false;
     private bool facingRight;
@@ -17,9 +17,17 @@ public class PlayerController : MonoBehaviour
     private void Awake()
     {
         playerCombat = GetComponent<PlayerCombat>();
-        playersRb = GetComponent<Rigidbody2D>();
-        playerAnim = GetComponent<Animator>();
+        rb2D = GetComponent<Rigidbody2D>();
+        animator = GetComponent<Animator>();
+        Messenger.AddListener(GameEvent.GAME_PAUSED, OnGamePaused);
+        Messenger.AddListener(GameEvent.GAME_UNPAUSED, OnGameUnPaused);
     }
+
+    private void OnDestroy()
+    {
+        Messenger.RemoveListener(GameEvent.GAME_PAUSED, OnGamePaused); 
+        Messenger.RemoveListener(GameEvent.GAME_UNPAUSED, OnGameUnPaused);
+    } 
 
     private void Update()
     {
@@ -41,23 +49,23 @@ public class PlayerController : MonoBehaviour
 
         if (horizontalInput != 0)
         {
-            transform.Translate(transform.right * movementSpeed * Time.deltaTime * horizontalInput);
-            playerAnim.SetFloat("f_walkSpeed", 0.6f);
+            transform.Translate(horizontalInput * movementSpeed * Time.deltaTime * transform.right);
+            animator.SetFloat("f_walkSpeed", 0.6f);
         }
-        else playerAnim.SetFloat("f_walkSpeed", 0.1f);
+        else animator.SetFloat("f_walkSpeed", 0.1f);
 
         if (Input.GetKeyDown(KeyCode.Space) && !isJumping)
         {
-            playersRb.AddForce(Vector2.up * jumpForce, ForceMode2D.Impulse);
+            rb2D.AddForce(Vector2.up * jumpForce, ForceMode2D.Impulse);
             isJumping = true;
-            playerAnim.SetBool("b_isJumping", isJumping);
+            animator.SetBool("b_isJumping", isJumping);
         }
     }
 
     private void OnCollisionEnter2D(Collision2D collision)
     {
         isJumping = false;
-        playerAnim.SetBool("b_isJumping", isJumping);
+        animator.SetBool("b_isJumping", isJumping);
     }
 
     private void OnTriggerEnter2D(Collider2D trigger)
@@ -81,5 +89,16 @@ public class PlayerController : MonoBehaviour
 
         transform.eulerAngles = playersRotation;
         canvas.transform.eulerAngles = canvasRotation;
+    }
+
+    private void OnGamePaused()
+    {
+        animator.enabled = false;
+        enabled = false;
+    }
+    private void OnGameUnPaused()
+    {
+        animator.enabled = true;
+        enabled = true;
     }
 }

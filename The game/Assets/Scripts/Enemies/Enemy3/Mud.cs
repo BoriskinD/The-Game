@@ -42,6 +42,14 @@ public class Mud : MonoBehaviour, IDamagable
         animator = GetComponent<Animator>();
 
         SelectTarget();
+        Messenger.AddListener(GameEvent.GAME_PAUSED, OnGamePaused);
+        Messenger.AddListener(GameEvent.GAME_UNPAUSED, OnGameUnPaused);
+    }
+
+    private void OnDestroy()
+    {
+        Messenger.RemoveListener(GameEvent.GAME_PAUSED, OnGamePaused);
+        Messenger.RemoveListener(GameEvent.GAME_UNPAUSED, OnGameUnPaused);
     }
 
     void Update()
@@ -176,7 +184,6 @@ public class Mud : MonoBehaviour, IDamagable
 
     public bool IsAlive() => alive;
 
-
     private void Die()
     {
         animator.SetBool("b_isDead", true);
@@ -187,5 +194,16 @@ public class Mud : MonoBehaviour, IDamagable
         actionZone.GetComponent<SkeletonActionZoneHandler>().enabled = false;
         actionZone.SetActive(false);
         triggerArea.SetActive(false);
+    }
+
+    private void OnGamePaused()
+    {
+        animator.enabled = false;
+        enabled = false;
+    }
+    private void OnGameUnPaused()
+    {
+        animator.enabled = true;
+        enabled = true;
     }
 }
