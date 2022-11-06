@@ -32,6 +32,7 @@ public class TokenItem : MonoBehaviour
     {
         animator.enabled = false;
     }
+
     private void OnGameUnPaused()
     {
         animator.enabled = true;

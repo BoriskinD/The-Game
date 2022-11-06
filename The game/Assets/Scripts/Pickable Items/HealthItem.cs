@@ -56,6 +56,7 @@ public class HealthItem : MonoBehaviour
     {
         enabled = false;
     }
+
     private void OnGameUnPaused()
     {
         enabled = true;

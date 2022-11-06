@@ -21,11 +21,13 @@ public class UIController : MonoBehaviour
             {
                 gameOnPause = false;
                 Messenger.Broadcast(GameEvent.GAME_UNPAUSED);
+                Managers.Audio.PlayBGMusic();
             }
             else
             {
                 gameOnPause = true;
                 Messenger.Broadcast(GameEvent.GAME_PAUSED);
+                Managers.Audio.PlayPauseMenuMusic();
             } 
         }
     }
