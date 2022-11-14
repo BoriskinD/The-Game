@@ -10,7 +10,7 @@ public class AudioManager : MonoBehaviour, IGameManager
     private AudioSource activeMusic;
     private AudioSource inactiveMusic;
     private bool crossFading;
-    private float musicVolume = 1;
+    private float musicVolume;
 
     public ManagerStatus status { get; private set; }
 

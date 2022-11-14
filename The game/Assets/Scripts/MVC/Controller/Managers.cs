@@ -6,10 +6,22 @@ public class Managers : MonoBehaviour
 {
     public static AudioManager Audio { get; private set; }
 
+    //Нужно для того чтобы не было куча звуковых менеджеров
+    //при переходе между сценами.
+    public static Managers instance;
+
     private List<IGameManager> managers;
 
     private void Awake()
     {
+        if (instance == null) instance = this;
+        else
+        {
+            Destroy(gameObject);
+            return;
+        }
+
+        DontDestroyOnLoad(gameObject);
         Audio = GetComponent<AudioManager>();
         managers = new List<IGameManager> { Audio };
         StartCoroutine(StartupManagers());
