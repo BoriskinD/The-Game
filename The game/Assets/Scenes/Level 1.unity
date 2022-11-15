@@ -1608,7 +1608,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: "\u0412\u044B \u041F\u0440\u043E\u0438\u0433\u0440\u0430\u043B\u0438!"
+  m_text: "\u041F\u0430\u0443\u0437\u0430"
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
   m_sharedMaterial: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
@@ -9956,6 +9956,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1c770de16c7a7304aac9d37c62eae068, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  gameOverText: {fileID: 633257438}
 --- !u!1 &1324366972
 GameObject:
   m_ObjectHideFlags: 0

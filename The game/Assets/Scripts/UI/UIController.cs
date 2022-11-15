@@ -1,5 +1,4 @@
 using UnityEngine;
-using UnityEngine.UI;
 using UnityEngine.SceneManagement;
 
 public class UIController : MonoBehaviour
@@ -7,11 +6,18 @@ public class UIController : MonoBehaviour
     public string firstScene = "Level 1";
 
     [SerializeField] private GameObject gameOverPanel;
+    private GameOverPanelHandler gameOverPanelHandler;
     private bool gameOnPause = false;
 
-    private void Awake() => Messenger.AddListener(GameEvent.PLAYER_DIED, OnPlayerDided);
+    private void Awake()
+    {
+        gameOverPanelHandler = gameOverPanel.GetComponent<GameOverPanelHandler>();
+        Messenger.AddListener(GameEvent.PLAYER_DIED, OnPlayerDided);
+    }
 
     private void OnDestroy() => Messenger.RemoveListener(GameEvent.PLAYER_DIED, OnPlayerDided);
+
+    private void Start() => Managers.Audio.PlayBGMusic();
 
     private void Update()
     {
@@ -22,18 +28,17 @@ public class UIController : MonoBehaviour
                 gameOnPause = false;
                 Messenger.Broadcast(GameEvent.GAME_UNPAUSED);
                 Managers.Audio.PlayBGMusic();
+                gameOverPanelHandler.ShowMenu(false);
             }
             else
             {
                 gameOnPause = true;
                 Messenger.Broadcast(GameEvent.GAME_PAUSED);
-                Managers.Audio.PlayPauseMenuMusic();
+                Managers.Audio.PlayPMenuMusic();
+                gameOverPanelHandler.ShowMenu(true);
             } 
         }
     }
 
-    private void OnPlayerDided()
-    {
-        gameOverPanel.GetComponent<GameOverPanelHandler>().ShowMenu();
-    }
+    private void OnPlayerDided() => gameOverPanelHandler.ShowMenu(true);
 }

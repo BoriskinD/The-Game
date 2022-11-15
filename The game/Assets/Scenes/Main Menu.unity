@@ -2683,7 +2683,7 @@ GameObject:
   - component: {fileID: 1163715740}
   - component: {fileID: 1163715739}
   m_Layer: 0
-  m_Name: PauseSource
+  m_Name: BackgroundSource
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -4791,7 +4791,7 @@ GameObject:
   - component: {fileID: 1838476687}
   - component: {fileID: 1838476688}
   m_Layer: 0
-  m_Name: BackgroundSource
+  m_Name: PauseSource
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -4822,8 +4822,8 @@ AudioSource:
   m_Enabled: 1
   serializedVersion: 4
   OutputAudioMixerGroup: {fileID: 0}
-  m_audioClip: {fileID: 8300000, guid: d513c5906c35475449790fddea48360c, type: 3}
-  m_PlayOnAwake: 1
+  m_audioClip: {fileID: 0}
+  m_PlayOnAwake: 0
   m_Volume: 1
   m_Pitch: 1
   Loop: 1
@@ -5010,7 +5010,7 @@ MonoBehaviour:
           m_FloatArgument: 0
           m_StringArgument: 
           m_BoolArgument: 0
-        m_CallState: 1
+        m_CallState: 2
 --- !u!1 &1879461049
 GameObject:
   m_ObjectHideFlags: 0

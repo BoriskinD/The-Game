@@ -10,7 +10,7 @@ public class AudioManager : MonoBehaviour, IGameManager
     private AudioSource activeMusic;
     private AudioSource inactiveMusic;
     private bool crossFading;
-    private float musicVolume;
+    private float musicVolume = 1;
 
     public ManagerStatus status { get; private set; }
 
@@ -19,8 +19,8 @@ public class AudioManager : MonoBehaviour, IGameManager
 
     public void Startup()
     {
-        activeMusic = backgroundSource;
-        inactiveMusic = pauseMenuSource;
+        activeMusic = pauseMenuSource;
+        inactiveMusic = backgroundSource;
         status = ManagerStatus.Started;
     }
 
@@ -40,7 +40,7 @@ public class AudioManager : MonoBehaviour, IGameManager
 
     public void PlayBGMusic() => PlayMusic((AudioClip)Resources.Load($"Music/{backgroundMusic}"));
 
-    public void PlayPauseMenuMusic() => PlayMusic((AudioClip)Resources.Load($"Music/{pauseMenuMusic}"));
+    public void PlayPMenuMusic() => PlayMusic((AudioClip)Resources.Load($"Music/{pauseMenuMusic}"));
 
     private void PlayMusic(AudioClip music)
     {
