@@ -38,6 +38,12 @@ public class AudioManager : MonoBehaviour, IGameManager
         }
     }
 
+    public void StopAllMusic()
+    {
+        backgroundSource.Stop();
+        pauseMenuSource.Stop();
+    }
+
     public void PlayBGMusic() => PlayMusic((AudioClip)Resources.Load($"Music/{backgroundMusic}"));
 
     public void PlayPMenuMusic() => PlayMusic((AudioClip)Resources.Load($"Music/{pauseMenuMusic}"));
