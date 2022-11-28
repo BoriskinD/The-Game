@@ -7,26 +7,32 @@ public class PlayerController : MonoBehaviour
     public float xLocalScale = 10f;
     public float bottomBoundary = -5f;
     public GameObject canvas;
+    public Canvas healthBar;
 
     private Rigidbody2D rb2D;
     private Animator animator;
+    //private BoxCollider2D boxCollider;
     private PlayerCombat playerCombat;
     private bool isJumping = false;
     private bool facingRight;
 
     private void Awake()
     {
+        //boxCollider = GetComponent<BoxCollider2D>();
         playerCombat = GetComponent<PlayerCombat>();
         rb2D = GetComponent<Rigidbody2D>();
         animator = GetComponent<Animator>();
+
         Messenger.AddListener(GameEvent.GAME_PAUSED, OnGamePaused);
         Messenger.AddListener(GameEvent.GAME_UNPAUSED, OnGameUnPaused);
+        Messenger.AddListener(GameEvent.PLAYER_DIED, OnPlayerDied);
     }
 
     private void OnDestroy()
     {
         Messenger.RemoveListener(GameEvent.GAME_PAUSED, OnGamePaused); 
         Messenger.RemoveListener(GameEvent.GAME_UNPAUSED, OnGameUnPaused);
+        Messenger.RemoveListener(GameEvent.PLAYER_DIED, OnPlayerDied);
     } 
 
     private void Update()
@@ -100,5 +106,12 @@ public class PlayerController : MonoBehaviour
     {
         animator.enabled = true;
         enabled = true;
+    }
+
+    private void OnPlayerDied()
+    {
+        //boxCollider.enabled = false;
+        healthBar.gameObject.SetActive(false);
+        enabled = false;
     }
 }

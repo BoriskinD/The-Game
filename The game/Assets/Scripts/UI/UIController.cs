@@ -7,6 +7,10 @@ public class UIController : MonoBehaviour
 
     [SerializeField] private GameObject gameOverPanel;
     private GameOverPanelHandler gameOverPanelHandler;
+
+    private string gameOverText = "Вы проиграли!";
+    private string gamePauseText = "Пауза!";
+
     private bool gameOnPause = false;
 
     private void Awake()
@@ -28,17 +32,17 @@ public class UIController : MonoBehaviour
                 gameOnPause = false;
                 Messenger.Broadcast(GameEvent.GAME_UNPAUSED);
                 Managers.Audio.PlayBGMusic();
-                gameOverPanelHandler.ShowMenu(false);
+                gameOverPanelHandler.ShowMenu(false, gameOverText);
             }
             else
             {
                 gameOnPause = true;
                 Messenger.Broadcast(GameEvent.GAME_PAUSED);
                 Managers.Audio.PlayPMenuMusic();
-                gameOverPanelHandler.ShowMenu(true);
+                gameOverPanelHandler.ShowMenu(true, gamePauseText);
             } 
         }
     }
 
-    private void OnPlayerDided() => gameOverPanelHandler.ShowMenu(true);
+    private void OnPlayerDided() => gameOverPanelHandler.ShowMenu(true, gameOverText);
 }
