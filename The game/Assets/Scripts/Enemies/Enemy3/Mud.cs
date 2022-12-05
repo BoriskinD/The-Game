@@ -19,6 +19,7 @@ public class Mud : MonoBehaviour, IDamagable
     [HideInInspector]
     public Transform target;
 
+    private PlayerCombat playerCombat;
     private Animator animator;
     private HealthBar healthBar;
     private float distance; 
@@ -40,6 +41,7 @@ public class Mud : MonoBehaviour, IDamagable
         healthBar = canvas.GetComponentInChildren<HealthBar>();
         healthBar.SetMaxHealth(maxHealth);
         animator = GetComponent<Animator>();
+        playerCombat = GameObject.Find("Player").GetComponent<PlayerCombat>();
 
         SelectTarget();
         Messenger.AddListener(GameEvent.GAME_PAUSED, OnGamePaused);
@@ -75,17 +77,21 @@ public class Mud : MonoBehaviour, IDamagable
         }
         else
         {
-            if (cdAfterAttack)
+            if (playerCombat.IsAlive)
             {
-                ResetAttackAnimations();
-                AttackCooldown();
+                if (cdAfterAttack)
+                {
+                    ResetAttackAnimations();
+                    AttackCooldown();
+                }
+                else
+                {
+                    animator.SetBool("b_isMoving", false);
+                    attackIndex = GetAttackAnimationIndex();
+                    Attack(attackIndex);
+                }
             }
-            else
-            {
-                animator.SetBool("b_isMoving", false);
-                attackIndex = GetAttackAnimationIndex();
-                Attack(attackIndex);
-            } 
+            else SelectTarget();           
         }
     }
 

@@ -541,7 +541,7 @@ BoxCollider2D:
   m_Offset: {x: 0, y: 0.016202897}
   m_SpriteTilingProperty:
     border: {x: 0, y: 0, z: 0, w: 0}
-    pivot: {x: 0.3607541, y: 0.5014281}
+    pivot: {x: 0.5, y: 0.5}
     oldSize: {x: 1.28, y: 0.96}
     newSize: {x: 1.28, y: 0.96}
     adaptiveTilingThreshold: 0.5
@@ -607,7 +607,9 @@ MonoBehaviour:
   movementSpeed: 5
   jumpForce: 450
   xLocalScale: 10
+  bottomBoundary: -5
   canvas: {fileID: 9210873744197134552}
+  healthBar: {fileID: 0}
 --- !u!114 &9210873744164290052
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -624,7 +626,6 @@ MonoBehaviour:
   maxHealth: 1000
   timeToNextAttack: 1.5
   healthBar: {fileID: 9210873743851343471}
-  timer: 4
 --- !u!1 &9210873744197134552
 GameObject:
   m_ObjectHideFlags: 0

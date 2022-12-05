@@ -18,6 +18,7 @@ public class Archer : MonoBehaviour, IDamagable
     private float timer;
     private Animator animator;
     private HealthBar healthBar;
+    private PlayerCombat playerCombat;
     private Bow bow;
     private bool cdAfterAttack = false;
     private bool alive = true;
@@ -29,6 +30,8 @@ public class Archer : MonoBehaviour, IDamagable
         healthBar = canvas.GetComponentInChildren<HealthBar>();
         healthBar.SetMaxHealth(currenthHealth);
         bow = GetComponentInChildren<Bow>();
+        playerCombat = GameObject.Find("Player").GetComponent<PlayerCombat>();
+
         Messenger.AddListener(GameEvent.GAME_PAUSED, OnGamePaused);
         Messenger.AddListener(GameEvent.GAME_UNPAUSED, OnGameUnPaused);
     }
@@ -44,7 +47,8 @@ public class Archer : MonoBehaviour, IDamagable
         if (playerInRange)
         {
             Flip();
-            Attack();
+            if(playerCombat.IsAlive)
+                Attack();
         }
     }
 

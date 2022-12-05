@@ -11,6 +11,7 @@ public class PlayerCombat : MonoBehaviour, IDamagable
     private float timer;
     private int currentHealth;
     private bool canAttack;
+    private bool alive = true;
 
     public int CurrentHealth 
     {
@@ -21,6 +22,12 @@ public class PlayerCombat : MonoBehaviour, IDamagable
     {
         get => maxHealth;
     }
+
+    public bool IsAlive
+    {
+        get => alive;
+    }
+
 
     private void Awake()
     {
@@ -80,6 +87,7 @@ public class PlayerCombat : MonoBehaviour, IDamagable
     public void Die()
     {
         animator.SetBool("b_isDead", true);
+        alive = false;
         Messenger.Broadcast(GameEvent.PLAYER_DIED);
     }
 }

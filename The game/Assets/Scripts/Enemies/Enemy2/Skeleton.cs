@@ -19,6 +19,7 @@ public class Skeleton : MonoBehaviour, IDamagable
     [HideInInspector]
     public Transform target;
 
+    private PlayerCombat playerCombat;
     private Animator animator;
     private HealthBar healthBar;
     private float distance; 
@@ -32,11 +33,15 @@ public class Skeleton : MonoBehaviour, IDamagable
         currentHealth = maxHealth;
         initTimer = timer;
         healthBar = canvas.GetComponentInChildren<HealthBar>();
-        healthBar.SetMaxHealth(maxHealth);
         animator = GetComponent<Animator>();
-        SelectTarget();
+        playerCombat = GameObject.Find("Player").GetComponent<PlayerCombat>();
+
+        healthBar.SetMaxHealth(maxHealth);
+
         Messenger.AddListener(GameEvent.GAME_PAUSED, OnGamePaused);
         Messenger.AddListener(GameEvent.GAME_UNPAUSED, OnGameUnPaused);
+
+        SelectTarget();
     }
 
     private void OnDestroy()
@@ -67,12 +72,20 @@ public class Skeleton : MonoBehaviour, IDamagable
         }
         else 
         {
-            if (cdAfterAttack)
+            if (playerCombat.IsAlive)
             {
-                animator.SetBool("b_isAttack", false);
-                AttackCooldown();
+                if (cdAfterAttack)
+                {
+                    animator.SetBool("b_isAttack", false);
+                    AttackCooldown();
+                }
+                else Attack();
             }
-            else Attack();
+            else
+            {
+                //inRange = false;
+                SelectTarget();
+            } 
         } 
     }
 
